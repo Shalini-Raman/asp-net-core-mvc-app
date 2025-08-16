@@ -3,7 +3,7 @@
     public enum MovieCategory
     {
         Comedy = 1,
-        Action ,
+        Action,
         Drama,
         Documentary
     }
