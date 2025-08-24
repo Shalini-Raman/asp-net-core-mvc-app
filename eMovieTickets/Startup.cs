@@ -1,4 +1,5 @@
 using eMovieTickets.Data;
+using eMovieTickets.Data.Enum;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -55,6 +56,9 @@ namespace eMovieTickets
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            AppDbInitializer.Seed(app);
+
         }
+        
     }
 }
