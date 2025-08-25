@@ -17,6 +17,11 @@ namespace eMovieTickets.Controllers
         {
             var data =await _Service.GetAll();
             return View(data);
+        
+        }
+        public IActionResult Create()
+        {
+            return View();
         }
     }
 }
