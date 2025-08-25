@@ -23,7 +23,7 @@ namespace eMovieTickets.Controllers
         public async Task<IActionResult> Index()
         {
             var data =await _Context.Producers.ToListAsync();
-            return View();
+            return View(data);
         }
     }
 }
