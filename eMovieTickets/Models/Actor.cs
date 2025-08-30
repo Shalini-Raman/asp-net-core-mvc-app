@@ -1,10 +1,11 @@
-﻿using eMovieTickets.Models;
+﻿using eMovieTickets.Data.Base;
+using eMovieTickets.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace eTickets.Models
 {
-    public class Actor
+    public class Actor:IEntityBase
     {
         [Key]
         public int Id { get; set; }
