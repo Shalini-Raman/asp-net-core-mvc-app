@@ -32,6 +32,7 @@ namespace eMovieTickets
             //Services for Dependency Injection
 
             services.AddScoped<IActorsService, ActorsService>();
+            services.AddScoped<IProducersService, ProducersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
