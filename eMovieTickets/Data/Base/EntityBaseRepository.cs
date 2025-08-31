@@ -2,7 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace eMovieTickets.Data.Base
@@ -28,8 +31,14 @@ namespace eMovieTickets.Data.Base
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()=> await _context.Set<T>().ToListAsync(); 
-        
+        public async Task<IEnumerable<T>> GetAllAsync()=> await _context.Set<T>().ToListAsync();
+
+        public async Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> query = _context.Set<T>();
+            query= includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+            return await query.ToListAsync();
+        }
 
         public async Task<T> GetByIDAsync(int id)=> await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
           

@@ -1,5 +1,7 @@
 ﻿using eTickets.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace eMovieTickets.Data.Base
@@ -8,6 +10,7 @@ namespace eMovieTickets.Data.Base
     {
         Task<IEnumerable<T>> GetAllAsync();
 
+        Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties);
         Task<T> GetByIDAsync(int id);
         Task AddAsync(T entity);
         Task UpdateAsync(int id, T entity);
