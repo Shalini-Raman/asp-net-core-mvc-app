@@ -6,17 +6,17 @@ namespace eMovieTickets.Data
 {
     public class AppDBContext : DbContext
     {
-        public AppDBContext(DbContextOptions<AppDBContext> options):base(options)
+        public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Actor_Movie>()
+            modelBuilder.Entity<Actors_Movies>()
                 .HasKey(am => new { am.MovieId, am.ActorId });
-            modelBuilder.Entity<Actor_Movie>().HasOne(m => m.Movie)
-                .WithMany(am => am.Actor_Movie)
+            modelBuilder.Entity<Actors_Movies>().HasOne(m => m.Movie)
+                .WithMany(am => am.Actors_Movies)
                 .HasForeignKey(m => m.MovieId);
-            modelBuilder.Entity<Actor_Movie>().HasOne(a => a.Actor)
+            modelBuilder.Entity<Actors_Movies>().HasOne(a => a.Actor)
                 .WithMany(am => am.Actors_Movies)
                 .HasForeignKey(a => a.ActorId);
             base.OnModelCreating(modelBuilder);
@@ -26,8 +26,14 @@ namespace eMovieTickets.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Producer> Producers { get; set; }
 
-        public DbSet<Actor_Movie> Actors_Movies { get; set; }
+        public DbSet<Actors_Movies> Actors_Movies { get; set; }
+        public DbSet<Order> Order { get; set; }
+
+        public DbSet<orderItem> OrderItem { get; set; }
+
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
     }
-    }
+}
     
 

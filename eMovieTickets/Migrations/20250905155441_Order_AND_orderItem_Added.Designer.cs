@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eMovieTickets.Data;
 
 namespace eMovieTickets.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250905155441_Order_AND_orderItem_Added")]
+    partial class Order_AND_orderItem_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,29 +55,6 @@ namespace eMovieTickets.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("eMovieTickets.Models.ShoppingCartItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ShoppingCartId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("ShoppingCartItems");
-                });
-
             modelBuilder.Entity("eMovieTickets.Models.orderItem", b =>
                 {
                     b.Property<int>("Id")
@@ -101,7 +80,7 @@ namespace eMovieTickets.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("orderItem");
                 });
 
             modelBuilder.Entity("eTickets.Models.Actor", b =>
@@ -232,15 +211,6 @@ namespace eMovieTickets.Migrations
                         .IsRequired();
 
                     b.Navigation("Actor");
-
-                    b.Navigation("Movie");
-                });
-
-            modelBuilder.Entity("eMovieTickets.Models.ShoppingCartItem", b =>
-                {
-                    b.HasOne("eTickets.Models.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId");
 
                     b.Navigation("Movie");
                 });

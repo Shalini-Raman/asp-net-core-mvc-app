@@ -67,17 +67,17 @@ namespace eMovieTickets.Data.Enum
                 if (!context.Actors_Movies.Any())
                 {
                     context.Actors_Movies.AddRange(
-                        new Actor_Movie { MovieId = 6, ActorId = 7 },
-                        new Actor_Movie { MovieId = 7, ActorId = 8 },
-                        new Actor_Movie { MovieId = 8, ActorId = 9 },
-                        new Actor_Movie { MovieId = 9, ActorId = 10 },
-                        new Actor_Movie { MovieId = 6, ActorId = 12 },
-                        new Actor_Movie { MovieId = 7, ActorId = 7 },
-                        new Actor_Movie { MovieId = 8, ActorId = 8 },
-                        new Actor_Movie { MovieId = 9, ActorId = 7 },
-                        new Actor_Movie { MovieId = 6, ActorId = 10 },
-                        new Actor_Movie { MovieId = 7, ActorId = 11 },
-                        new Actor_Movie { MovieId = 8, ActorId = 12 }
+                        new Actors_Movies { MovieId = 6, ActorId = 7 },
+                        new Actors_Movies { MovieId = 7, ActorId = 8 },
+                        new Actors_Movies { MovieId = 8, ActorId = 9 },
+                        new Actors_Movies { MovieId = 9, ActorId = 10 },
+                        new Actors_Movies { MovieId = 6, ActorId = 12 },
+                        new Actors_Movies { MovieId = 7, ActorId = 7 },
+                        new Actors_Movies { MovieId = 8, ActorId = 8 },
+                        new Actors_Movies { MovieId = 9, ActorId = 7 },
+                        new Actors_Movies { MovieId = 6, ActorId = 10 },
+                        new Actors_Movies { MovieId = 7, ActorId = 11 },
+                        new Actors_Movies { MovieId = 8, ActorId = 12 }
                     );
                     context.SaveChanges();
                 }
