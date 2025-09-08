@@ -1,9 +1,12 @@
 ﻿using eMovieTickets.Models;
 using eTickets.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace eMovieTickets.Data
 {
@@ -18,6 +21,14 @@ namespace eMovieTickets.Data
             _context = context;
         }
 
+        public static ShoppingCart GetShoppingCart(IServiceProvider services)
+        {
+            ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
+            var context = services.GetService<AppDBContext>();
+            string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
+            session.SetString("CartId", cartId);
+            return new ShoppingCart(context) { ShoppingCartId = cartId };
+        }
         public List<ShoppingCartItem> GetShoppingCartItems()
         {
             return ShoppingCartItems ?? (ShoppingCartItems = _context.ShoppingCartItems
@@ -71,6 +82,12 @@ namespace eMovieTickets.Data
                 .Where(n => n.ShoppingCartId == ShoppingCartId)
                 .Select(n => n.Movie.Price * n.Amount).Sum();
             return total;
+        }
+        public async Task ClearShoppingCartAsync()
+        {
+            var items = await _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).ToListAsync();
+            _context.ShoppingCartItems.RemoveRange(items);
+            await _context.SaveChangesAsync();
         }
     }
 }
