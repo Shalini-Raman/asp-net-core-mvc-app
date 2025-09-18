@@ -1,10 +1,13 @@
-﻿using eMovieTickets.Models;
+﻿using eMovieTickets.Data.Static;
+using eMovieTickets.Models;
 using eTickets.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace eMovieTickets.Data.Enum
 {
@@ -111,6 +114,61 @@ namespace eMovieTickets.Data.Enum
                 // Seed data if necessary
                 // Example: context.Movies.Add(new Movie { Title = "Inception", Genre = "Sci-Fi" });
                 // context.SaveChanges();
+            }
+        }
+
+        public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope= applicationBuilder.ApplicationServices.CreateScope())
+            {
+                //Role
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                }
+
+                if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+                }
+
+                //Users
+                string adminUserMail = "admin@eticket.com";
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                var adminuser = await userManager.FindByEmailAsync(adminUserMail);
+
+                if (adminuser == null) 
+                {
+                    var newAdmiUser = new ApplicationUser()
+                    {
+                        FullName = "Admin User",
+                        UserName = "admin-user",
+                        Email = adminUserMail,
+                        EmailConfirmed = true
+                    };
+                    await userManager.CreateAsync(newAdmiUser, "Coding@1234?");
+                    await userManager.AddToRoleAsync(newAdmiUser, UserRoles.Admin);
+                }
+
+                string appUserMail = "appUser@eticket.com";
+                var appuser = await userManager.FindByEmailAsync(appUserMail);
+
+                if (appuser == null)
+                {
+                    var newappUser = new ApplicationUser()
+                    {
+                        FullName = "App User",
+                        UserName = "App-user",
+                        Email = appUserMail,
+                        EmailConfirmed = true
+                    };
+                    await userManager.CreateAsync(newappUser, "Coding@1234?");
+                    await userManager.AddToRoleAsync(newappUser, UserRoles.User);
+                }
+
+
             }
         }
     }

@@ -51,5 +51,17 @@ namespace eMovieTickets.Data.Services
             return await orders;
         }
 
+        public async Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId, string userRole)
+        {
+            var orders =await _context.Order
+                 .Include(n => n.orderItems)
+                 .ThenInclude(n => n.Movie)
+                 .ToListAsync();
+            if(userRole != "Admin")
+            {
+                orders = orders.Where(n => n.UserId == userId).ToList();
+            }
+            return orders;
+        }
     }
 }

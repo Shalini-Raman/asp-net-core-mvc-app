@@ -1,10 +1,13 @@
 using eMovieTickets.Data;
 using eMovieTickets.Data.Enum;
 using eMovieTickets.Data.Services;
+using eMovieTickets.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +44,11 @@ namespace eMovieTickets
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetShoppingCart(sp));
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDBContext>();
+
+            services.AddMemoryCache();
+            services.AddAuthentication(options => { options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; });
             services.AddSession();
             services.AddControllersWithViews();
         }
@@ -63,6 +71,8 @@ namespace eMovieTickets
 
             app.UseRouting();
             app.UseSession();
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -72,6 +82,7 @@ namespace eMovieTickets
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
             AppDbInitializer.Seed(app);
+            AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
 
         }
         
