@@ -56,6 +56,7 @@ namespace eMovieTickets.Data.Services
             var orders =await _context.Order
                  .Include(n => n.orderItems)
                  .ThenInclude(n => n.Movie)
+                 .Include(n => n.User)
                  .ToListAsync();
             if(userRole != "Admin")
             {

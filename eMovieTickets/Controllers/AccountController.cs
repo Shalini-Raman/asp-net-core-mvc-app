@@ -4,6 +4,7 @@ using eMovieTickets.Data.ViewModel;
 using eMovieTickets.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace eMovieTickets.Controllers
@@ -19,6 +20,12 @@ namespace eMovieTickets.Controllers
             _signInManager = signInManager;
             _context = Context;
 
+        }
+
+        public async Task<IActionResult> Users()
+        {
+            var user = await _context.Users.ToListAsync();
+            return View(user);
         }
         public IActionResult Login()
         {

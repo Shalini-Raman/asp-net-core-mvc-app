@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using eMovieTickets.Data.ViewModel;
 using System.Threading.Tasks;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eMovieTickets.Controllers
-{ 
+{
+    [Authorize]
     public class OrdersController : Controller
     {
 

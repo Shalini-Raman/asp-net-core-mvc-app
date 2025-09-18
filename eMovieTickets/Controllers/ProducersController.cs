@@ -1,6 +1,7 @@
 ﻿using eMovieTickets.Data;
 using eMovieTickets.Data.Services;
 using eTickets.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace eMovieTickets.Controllers
 {
+    [Authorize]
     public class ProducersController : Controller
     {
         private readonly IProducersService _Service;
@@ -22,11 +24,13 @@ namespace eMovieTickets.Controllers
         //    return View();
         //}
         //ASynchronous
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var data =await _Service.GetAllAsync();
             return View(data);
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var data = await _Service.GetByIDAsync(id);

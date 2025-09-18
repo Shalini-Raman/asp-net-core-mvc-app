@@ -1,6 +1,7 @@
 ﻿using eMovieTickets.Data;
 using eMovieTickets.Data.Services;
 using eTickets.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace eMovieTickets.Controllers
 {
+    [Authorize]
     public class MoviesController : Controller
     {
         private readonly IMoviesService _context;
@@ -17,11 +19,13 @@ namespace eMovieTickets.Controllers
         {
             _context = context;
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var data = await _context.GetAllAsync(n=> n.Cinema);
             return View(data);
         }
+        [AllowAnonymous]
 
         //Get:Movies/Details/1
         public async Task<IActionResult> Details(int id)
@@ -100,6 +104,7 @@ namespace eMovieTickets.Controllers
             await _context.UpdateMovieAsync(movie);
             return RedirectToAction(nameof(Index));
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Search(string searchString)
         {
             var allMovies = await _context.GetAllAsync(n => n.Cinema);
